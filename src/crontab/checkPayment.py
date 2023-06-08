@@ -3,6 +3,7 @@ import datetime
 import os
 import sys
 
+print(f'Check payment {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}')
 # Get the absolute path of the directory where checkPayment.py is located
 current_dir = os.path.dirname(os.path.abspath(__file__))
 

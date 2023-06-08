@@ -10,14 +10,12 @@ SEARCH_TEXT = "🔥 Choose where we will look for the photo:"
 RESPONSE_TEXT_GET_CONTACT = {
     'phone': '🔗 Send the bot a phone number. The search of photos is performed by Telegram and WhatsApp '
              'databases\n\nExample:\n└ +91 98830 49142',
-    'telegram': '🔗 Send the bot a phone number. The search of photos is performed by Telegram and WhatsApp '
-                'databases\n\nExample:\n└ +91 98830 49142',
-    'instagram': '🔗 Send the bot a phone number. The search of photos is performed by Telegram and WhatsApp '
-                 'databases\n\nExample:\n└ +91 98830 49142',
-    'facebook': '🔗 Send the bot a phone number. The search of photos is performed by Telegram and WhatsApp '
-                'databases\n\nExample:\n└ +91 98830 49142',
+    'telegram': '🔗 Send the bot a link to Telegram profile\n\nExample:\n└ @Aishwarya_rain\n└ t.me/Aishwarya_rain\n└ https://t.me/Aishwarya_rain',
+    'instagram': '🔗 Send the bot a link to Instagram page\n\nExample:\n├ http://www.instagram.com/priyankachopra\n├ https://www.instagram.com/priyankachopra\n├ www.instagram.com/priyankachopra\n├ instagram.com/priyankachopra\n└ https://www.instagram.com/priyankachopra?utm_medium=copy_link',
+    'facebook': '🔗 Send the bot a link to the page or Facebook user ID\n\nExample:\n├ https://www.facebook.com/aishwarya286\n└ facebook.com/aishwarya286',
     'default': 'Invalid choice. Please try again.'
 }
+
 
 PHOTOS_FOUND = '''
 {} | 590₹

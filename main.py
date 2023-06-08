@@ -132,6 +132,7 @@ def send_photo_with_instagram_name(chat_id, name):
 # Step 7: Handling callback query for "Buy" and "Buy an unlimited service subscription" options
 @bot.callback_query_handler(func=lambda call: call.data in ['buy', 'unlimited'])
 def handle_buy_option(call):
+    user_state[call.message.chat.id] = call.data
     bot.send_message(call.message.chat.id, src.messages.CHOOSE_OPTION, reply_markup=get_payment_keyboard(call.data))
 
 
@@ -156,7 +157,10 @@ def handle_payment_option(call):
         else:
             # Calculate the sum for the new order
             sum_exists = True
-            new_sum = 7.05  # Default sum value
+            if user_state[call.message.chat.id] == 'unlimited':
+                new_sum = 14.05
+            else:
+                new_sum = 7.05  # Default sum value
 
             while sum_exists:
                 # Check if the calculated sum already exists in the orders table
