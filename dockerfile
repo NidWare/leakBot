@@ -8,7 +8,7 @@ COPY . .
 
 # Install dependencies
 RUN apt-get update && apt-get install -y cron
-RUN pip install --no-cache-dir telebot sqllite3 random pytz beautifulsoup4 instaloader pillow
+RUN pip install --no-cache-dir telebot pytz beautifulsoup4 instaloader pillow
 
 # Add crontab file
 ADD crontab /etc/cron.d/bot-cron
@@ -20,4 +20,4 @@ RUN chmod 0644 /etc/cron.d/bot-cron
 RUN crontab /etc/cron.d/bot-cron
 
 # Run the command on container startup
-CMD service cron start && python your_bot_script.py
+CMD service cron start && python main.py
