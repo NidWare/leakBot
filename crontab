@@ -1,1 +1,1 @@
-*/5 * * * * /usr/bin/python /path/to/checkPayment.py >> /var/log/checkPayment.log 2>&1
+*/5 * * * * /usr/local/bin/python /path/to/checkPayment.py >> /var/log/checkPayment.log 2>&1
