@@ -8,7 +8,7 @@ _
 SEARCH_TEXT = "🔥 Choose where we will look for the photo:"
 
 RESPONSE_TEXT_GET_CONTACT = {
-    'phone': '🔗 Send the bot a phone number. The search of photos is performed by Telegram and WhatsApp '
+    'phone': '🔗 Send the bot a phone number. The search of photos is performed by WhatsApp '
              'databases\n\nExample:\n└ +91 98830 49142',
     'telegram': '🔗 Send the bot a link to Telegram profile\n\nExample:\n└ @Aishwarya_rain\n└ t.me/Aishwarya_rain\n└ https://t.me/Aishwarya_rain',
     'instagram': '🔗 Send the bot a link to Instagram page\n\nExample:\n├ http://www.instagram.com/priyankachopra\n├ https://www.instagram.com/priyankachopra\n├ www.instagram.com/priyankachopra\n├ instagram.com/priyankachopra\n└ https://www.instagram.com/priyankachopra?utm_medium=copy_link',
@@ -77,4 +77,4 @@ BUY_MESSAGE = 'Send https://sova.gg/?ref=57a73937-65ec-4472-ae4a-e22af38fc3d9&cu
 
 PAY_LAST_ORDER = 'Pay last order or cancel it.'
 
-WAITING_FOR_PAYMENT = '🔴 YOU MUST SENT ONLY THE SAME SUM: {} USDT TRC20 🔴 \n\nPay here: https://sova.gg/?ref=57a73937-65ec-4472-ae4a-e22af38fc3d9&cur_from=WIREINR&cur_to=USDTTRC20'
+WAITING_FOR_PAYMENT = '🔴 YOU MUST SENT ONLY THE SAME SUM: {}\nUSDT TRC20 \n\n[Pay here](https://sova.gg/en/?ref=57a73937-65ec-4472-ae4a-e22af38fc3d9&cur_from=WIREINR&cur_to=USDTTRC20)'

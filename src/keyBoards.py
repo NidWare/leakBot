@@ -11,7 +11,7 @@ def get_welcome_keyboard():
 
 def get_search_keyboard():
     keyboard = InlineKeyboardMarkup(row_width=1)
-    phone_button = InlineKeyboardButton("📞Phone number", callback_data='phone')
+    phone_button = InlineKeyboardButton("✅WhatsApp", callback_data='phone')
     telegram_button = InlineKeyboardButton("👤Telegram", callback_data='telegram')
     instagram_button = InlineKeyboardButton("📷Instagram", callback_data='instagram')
     facebook_button = InlineKeyboardButton("🌐Facebook", callback_data='facebook')

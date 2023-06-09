@@ -180,7 +180,7 @@ def handle_payment_option(call):
                               VALUES (?, ?, 0, ?, ?)''', (current_datetime, new_sum, wallet, user_id))
             conn.commit()
             bot.send_message(call.message.chat.id, src.messages.WAITING_FOR_PAYMENT.format(new_sum),
-                             reply_markup=get_check_payment_keyboard())
+                             reply_markup=get_check_payment_keyboard(), parse_mode='Markdown', disable_web_page_preview=True)
     elif call.data == 'instructions':
         bot.send_message(call.message.chat.id, "Here are the instructions.")
     elif call.data == 'cancel':
