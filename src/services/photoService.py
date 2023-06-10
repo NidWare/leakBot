@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import os
 from . import avatarService
+# import avatarService
 
 
 def getTelegramImage(user_name, name_text):
@@ -67,7 +68,7 @@ def getTelegramImage(user_name, name_text):
     img.paste(avatar_masked, (avatar_left_x, avatar_top_y), avatar_masked)
 
     # Save the modified image
-    img.save("src/services/img/user/{}.png".format(user_name))
+    img.save("src/services/img/user/{}.jpg".format(user_name))
 
 
 def getInstagramImage(user_name, name_text):
@@ -97,41 +98,8 @@ def getInstagramImage(user_name, name_text):
     # Draw the name text on the navbar
     draw.text((name_text_x, name_text_y), name_text, font=name_font, fill=(0, 0, 0))
 
-    try:
-        avatar = Image.open('src/services/img/avatar/{}'.format(user_name))
-    except:
-        avatar = Image.open('src/services/img/blocked.png')
-
-    # Create a new RGBA image with white background and paste the avatar alpha channel onto it
-    avatar_alpha = Image.new("RGBA", avatar.size, (0, 0, 0, 0))
-    avatar_alpha.putalpha(avatar.convert("L"))
-
-    # Set the size of the avatar image to 60x60 pixels
-    avatar_alpha = avatar_alpha.resize((60, 60))
-
-    # Create a circular mask for the avatar
-    mask = Image.new('L', avatar_alpha.size, 0)
-    draw = ImageDraw.Draw(mask)
-    draw.ellipse((0, 0, avatar_alpha.size[0], avatar_alpha.size[1]), fill=255)
-
-    # Apply the circular mask to the avatar
-    avatar_alpha = ImageOps.fit(avatar_alpha, mask.size, centering=(0.5, 0.5))
-    avatar_alpha.putalpha(mask)
-
-    # Calculate the x-coordinate for the right side of the navbar
-    navbar_right_x = img.width - 10
-
-    # Calculate the y-coordinate for the top of the avatar image
-    avatar_top_y = int(name_text_y + (name_text_bb[3] - name_text_bb[1]) / 10) - 10
-
-    # Calculate the x-coordinate for the left side of the avatar image
-    avatar_left_x = int(navbar_right_x - 500)
-
-    # Paste the avatar image onto the navbar
-    img.paste(avatar_alpha, (avatar_left_x, avatar_top_y), avatar_alpha)
-
     # Save the modified image
-    img.save("src/services/img/user/{}.png".format(user_name))
+    img.save("src/services/img/user/instagram/{}.jpg".format(user_name))
 
 
 def getFacebookImage(user_id, name_text):
@@ -164,6 +132,36 @@ def getFacebookImage(user_id, name_text):
     img.save("src/services/img/user/{}.png".format(user_id))
 
 
+def getWAppImage(user_id, text):
+    # Load the image of the iPhone screen
+    img = Image.open('src/services/img/wApp.jpg')
+    draw = ImageDraw.Draw(img)
+
+    # Set font for name text and create the text object
+    name_font = ImageFont.truetype("src/services/font/font.otf", 22)
+
+    # Get the bounding box of the name text
+    name_text_bb = draw.textbbox((0, 0), text, font=name_font)
+
+    # Calculate the x-coordinate for the center of the navbar
+    navbar_center_x = img.width / 2
+
+    # Calculate the y-coordinate for the center of the navbar
+    navbar_center_y = 50
+
+    # Calculate the x-coordinate for the left side of the name text
+    name_text_x = navbar_center_x - ((name_text_bb[2] - name_text_bb[0]) / 2)
+
+    # Calculate the y-coordinate for the top of the name text
+    name_text_y = navbar_center_y - ((name_text_bb[3] - name_text_bb[1]) / 2) + 40
+
+    # Draw the name text on the navbar
+    draw.text((name_text_x, name_text_y), text, font=name_font, fill=(255, 255, 255))
+
+    # Save the modified image
+    img.save("src/services/img/user/wApp/{}.jpg".format(user_id))
+
+
 def delete_user_photo(name):
     # construct path to file
     path = f"src/services/img/user/{name}.jpg"
@@ -175,3 +173,5 @@ def delete_user_photo(name):
     else:
         print(f"{path} not found")
 
+
+# getWAppImage(123, '+79131995785')

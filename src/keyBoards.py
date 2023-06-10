@@ -21,9 +21,10 @@ def get_search_keyboard():
 
 def get_buy_keyboard():
     keyboard = InlineKeyboardMarkup(row_width=2)
-    buy_button = InlineKeyboardButton("Buy 💳 | 590₹", callback_data='buy')
-    unlimited_button = InlineKeyboardButton("Buy an unlimited service subscription  | 1190₹", callback_data='unlimited')
-    keyboard.add(buy_button, unlimited_button)
+    buy_button = InlineKeyboardButton("Buy 💳 | 7 USDT", callback_data='buy')
+    unlimited_button = InlineKeyboardButton("Unlimited  | 14 USDT", callback_data='unlimited')
+    back_button = InlineKeyboardButton("Back", callback_data='back')
+    keyboard.add(buy_button, unlimited_button, back_button)
     return keyboard
 
 

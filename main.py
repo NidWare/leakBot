@@ -11,6 +11,7 @@ from src.services.dateService import random_date
 from src.config import token, wallet
 
 user_state = {}
+step_back = {}
 
 bot = telebot.TeleBot(token)
 
@@ -23,6 +24,7 @@ def send_welcome(message):
 # Step 2: Handling callback query for "Search" option
 @bot.callback_query_handler(func=lambda call: call.data == 'search')
 def handle_search_option(call):
+    step_back[call.message.chat.id] = "handle_search_option"  # Store the previous step
     bot.send_message(call.message.chat.id, src.messages.SEARCH_TEXT, reply_markup=get_search_keyboard())
 
 
@@ -33,10 +35,11 @@ def handle_contact_option(call):
     bot.send_message(call.message.chat.id, src.messages.RESPONSE_TEXT_GET_CONTACT[call.data])
 
 
+
 # Step 4: Handling user input and displaying loader
 @bot.message_handler(func=lambda message: True)
 def handle_user_input(message):
-    if user_state[message.chat.id] is not None:
+    if user_state.get(message.chat.id) is not None:
         # Display loader message
         send_loader(message)
 
@@ -52,7 +55,10 @@ def get_contact_found_message(message):
         return src.messages.NO_CONTACT_TYPE
 
     if user_state[message.chat.id] == 'phone':
+        src.services.photoService.getWAppImage(message.chat.id, message.text)
+        send_photo_with_wapp_name(message.chat.id, message.chat.id)
         response_text = src.messages.RESPONSE_TEXT_FOUND_CONTACT[user_state[message.chat.id]].format(message.text, get_random_date(), get_random_date(), get_random_date())
+        src.services.photoService.delete_user_photo('/wApp/{}'.format(message.chat.id))
 
     elif user_state[message.chat.id] == 'telegram':
         nickname = src.services.avatarService.extract_telegram_nickname(message.text)
@@ -65,6 +71,8 @@ def get_contact_found_message(message):
         except:
             print('exception because of user name')
             pass
+        src.services.photoService.delete_user_photo(nickname)
+
     elif user_state[message.chat.id] == 'instagram':
 
         nickname = src.services.avatarService.extract_instagram_nickname(message.text)
@@ -75,10 +83,13 @@ def get_contact_found_message(message):
         response_text = src.messages.RESPONSE_TEXT_FOUND_CONTACT[user_state[message.chat.id]].format(message.text, get_random_date(), get_random_date(), get_random_date())
 
         try:
-            send_photo_with_name(message.chat.id, nickname)
+            send_photo_with_name(message.chat.id, '/instagram/{}'.format(nickname))
         except:
             print('exception because of user name')
             pass
+
+        src.services.photoService.delete_user_photo('/instagram/{}'.format(nickname))
+
 
     elif user_state[message.chat.id] == 'facebook':
         response_text = src.messages.RESPONSE_TEXT_FOUND_CONTACT[user_state[message.chat.id]].format('Facebook Page Name', message.text, get_random_date(), get_random_date(), get_random_date())
@@ -91,12 +102,12 @@ def get_contact_found_message(message):
     else:
         response_text = src.messages.NO_CONTACT_TYPE
 
+
     return response_text
 
 
 def send_photo_with_name(chat_id, name):
-    # Define the path of the photo
-    photo_path = f'src/services/img/user/{name}.png'
+    photo_path = f'src/services/img/user/{name}.jpg'
 
     # Check if the photo file exists
     if not os.path.isfile(photo_path):
@@ -113,8 +124,24 @@ def send_photo_with_name(chat_id, name):
 
 
 def send_photo_with_instagram_name(chat_id, name):
-    # Define the path of the photo
-    photo_path = f'src/services/img/user/{name}_inst.png'
+    photo_path = f'src/services/img/user/instagram/{name}.jpg'
+
+    # Check if the photo file exists
+    if not os.path.isfile(photo_path):
+        print(f"Photo file not found for name: {name}")
+        return
+
+    try:
+        with open(photo_path, 'rb') as photo_file:
+            # Send the photo to the specified chat ID
+            bot.send_photo(chat_id, photo_file)
+            print(f"Photo sent successfully for name: {name}")
+    except Exception as e:
+        print(f"Failed to send photo for name: {name}. Error: {e}")
+
+
+def send_photo_with_wapp_name(chat_id, name):
+    photo_path = f'src/services/img/user/wApp/{name}.jpg'
 
     # Check if the photo file exists
     if not os.path.isfile(photo_path):
@@ -132,8 +159,10 @@ def send_photo_with_instagram_name(chat_id, name):
 # Step 7: Handling callback query for "Buy" and "Buy an unlimited service subscription" options
 @bot.callback_query_handler(func=lambda call: call.data in ['buy', 'unlimited'])
 def handle_buy_option(call):
+    step_back[call.message.chat.id] = "handle_buy_option"  # Store the previous step
     user_state[call.message.chat.id] = call.data
     bot.send_message(call.message.chat.id, src.messages.CHOOSE_OPTION, reply_markup=get_payment_keyboard(call.data))
+
 
 
 # Step 9: Handling callback query for "Payment" and "Instructions" options
@@ -217,6 +246,29 @@ def handle_check_payment(call):
         bot.send_message(call.message.chat.id, "You didn't buy it.")
 
 
+@bot.callback_query_handler(func=lambda call: call.data == 'check_payment')
+def handle_check_payment(call):
+    # Establishing connection to SQLite database
+    conn = sqlite3.connect('orders.db')
+    cursor = conn.cursor()
+
+    # Retrieve the last order from the database
+    cursor.execute("SELECT is_payed FROM orders WHERE user_id = {} ORDER BY id DESC LIMIT 1".format(str(call.message.chat.id)))
+    result = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if result and result[0] == 1:
+        bot.send_message(call.message.chat.id, "You bought it.")
+        send_random_file_from_directory(call.message.chat.id)
+        bot.send_message(call.message.chat.id, src.messages.CHOOSE_OPTION, reply_markup=get_welcome_keyboard())
+    else:
+        bot.send_message(call.message.chat.id, "You didn't buy it.")
+
+
+@bot.callback_query_handler(func=lambda call: call.data == 'back')
+def handle_back(call):
+    send_welcome(call.message)
+
 def send_loader(message):
     loader_message = bot.send_message(message.chat.id, "⏳ Searching... 0% \n\n⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️")
 
@@ -260,6 +312,8 @@ def send_random_file_from_directory(chat_id):
         print(f"File not found: {file_name}")
     except Exception as e:
         print(f"Error sending file: {file_name}\n{str(e)}")
+
+
 
 
 bot.polling(none_stop=True)

@@ -1,6 +1,7 @@
 import os
 import requests
 import re
+import time
 
 import instaloader
 
@@ -70,7 +71,7 @@ def extract_instagram_nickname(string):
 def extract_facebook_name_from_page(url):
     # Send a GET request to the Facebook profile page
     response = requests.get(url)
-
+    print(response.content)
     if response.status_code == 200:
         # Parse the HTML content of the page
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -112,13 +113,18 @@ def extract_telegram_nickname(text):
 
 
 #todo: BLOCKER FIX IT
-def save_instagram_avatar(nickname):
+def get_instagram_avatar(nickname):
     # Create an instance of Instaloader
     loader = instaloader.Instaloader()
+
+    loader.login("kakalulu11", "kakalulu7677")
+    time.sleep(2)
 
     try:
         # Load the profile based on the nickname
         profile = instaloader.Profile.from_username(loader.context, nickname)
+
+        time.sleep(3)
 
         # Download the profile picture (avatar)
         loader.download_profilepic(profile.username)
@@ -127,10 +133,10 @@ def save_instagram_avatar(nickname):
         filename = loader.context.filename_template
 
         # Construct the new filename with the desired format
-        new_filename = f"{nickname}_inst.jpg"
+        new_filename = f"{nickname}.jpg"
 
         # Construct the destination directory and filename
-        destination = os.path.join("img/avatar", new_filename)
+        destination = os.path.join("src/services/img/avatar", new_filename)
 
         # Rename the downloaded profile picture to the desired filename and move it to the destination directory
         os.rename(filename, destination)
@@ -141,5 +147,3 @@ def save_instagram_avatar(nickname):
     except Exception as e:
         print("An error occurred:", str(e))
 
-
-save_instagram_avatar('sukhinin_')

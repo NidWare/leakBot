@@ -18,7 +18,7 @@ RESPONSE_TEXT_GET_CONTACT = {
 
 
 PHOTOS_FOUND = '''
-{} | 590₹
+{} | 7 USDT
 
 The leaked intimate photos have already been collected. You can buy and download them
 '''
@@ -50,8 +50,7 @@ Nude video videos: {} ✅
     'instagram': '''
 Nude photos were found✅
 
-Phone number: {}
-ID: 
+ID: {}
 Date of sending photos: {}
 
 Nude photos: {} ✅
