@@ -1,1 +1,2 @@
 */5 * * * * /usr/local/bin/python /app/src/crontab/checkPayment.py >> /var/log/checkPayment.log 2>&1
+0 * * * * /usr/local/bin/python /app/src/crontab/clearLongPayments.py >> /var/log/clearLongPayments.log 2>&1
