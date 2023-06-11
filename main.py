@@ -48,6 +48,8 @@ def handle_user_input(message):
         del user_state[message.chat.id]
         # Display the buy options
         bot.send_message(message.chat.id, src.messages.PHOTOS_FOUND.format(contact_name), reply_markup=get_buy_keyboard())
+    else:
+        bot.send_message(message.chat.id, '❗Use commands or buttons bellow')
 
 
 def get_contact_found_message(message):
@@ -198,7 +200,7 @@ def handle_payment_option(call):
 
                 if existing_sum_order:
                     # Increment the sum and check again
-                    new_sum += 0.1
+                    new_sum = round(0.1 + new_sum, 2)
                 else:
                     sum_exists = False
 
