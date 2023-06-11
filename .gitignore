@@ -2,3 +2,4 @@ orders.db
 logs/
 .idea/
 .DS_Store
+src/config.py
