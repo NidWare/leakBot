@@ -39,7 +39,7 @@ def handle_contact_option(call):
 # Step 4: Handling user input and displaying loader
 @bot.message_handler(func=lambda message: True)
 def handle_user_input(message):
-    if user_state.get(message.chat.id) is not None:
+    if user_state.get(message.chat.id) is not None and user_state.get(message.chat.id) not in ['buy', 'unlimited']:
         # Display loader message
         send_loader(message)
 
