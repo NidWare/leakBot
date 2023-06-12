@@ -191,7 +191,7 @@ def handle_payment_option(call):
             if user_state[call.message.chat.id] == 'unlimited':
                 new_sum = 14.05
             else:
-                new_sum = 7.05  # Default sum value
+                new_sum = 7.15  # Default sum value
 
             while sum_exists:
                 # Check if the calculated sum already exists in the orders table
