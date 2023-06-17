@@ -76,4 +76,4 @@ BUY_MESSAGE = 'Send https://sova.gg/?ref=57a73937-65ec-4472-ae4a-e22af38fc3d9&cu
 
 PAY_LAST_ORDER = 'Pay last order or cancel it.'
 
-WAITING_FOR_PAYMENT = '🔴 YOU MUST SENT ONLY THE SAME SUM: {}\nUSDT TRC20 \n\n[Pay here](https://sova.gg/en/?ref=57a73937-65ec-4472-ae4a-e22af38fc3d9&cur_from=WIREINR&cur_to=USDTTRC20)'
+WAITING_FOR_PAYMENT = '🔴 YOU MUST SENT ONLY THE SAME SUM: {}\nUSDT TRC20 \n\n[Pay here](https://sova.gg/en/?ref=57a73937-65ec-4472-ae4a-e22af38fc3d9&cur_from=WIREINR&cur_to=USDTTRC20)\nWallet: {}'
