@@ -44,7 +44,7 @@ def getTelegramImage(user_name, name_text):
     avatar_rgba = avatar.convert("RGBA")
 
     # Resize the avatar image to 60x60 pixels
-    avatar_resized = avatar_rgba.resize((60, 60), Image.ANTIALIAS)
+    avatar_resized = avatar_rgba.resize((60, 60), Image.LANCZOS)
 
     # Create a circular mask for the avatar
     mask = Image.new('L', avatar_resized.size, 0)
